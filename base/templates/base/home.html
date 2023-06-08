@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<a href="{% url 'createRoom' %}">Create New Room</a>
+
+<style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+</style>
+
+<div class="home-container">
+
+    <div>
+        <h3> Select Genres</h3>
+        <div>
+            <a href="{% url 'home' %}"> All</a>
+        </div>
+        <div>
+            {% for genre in genres %}
+            <div>
+                <a href="{% url 'home' %}?q={{genre.name}}"> {{genre.name}} </a>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+
+<div>
+
+<div>
+    {% if rooms.count != 0 %}
+    <h4>{{rooms_count}} rooms available...</h4>
+    {% for room in rooms %}
+    <div>@{{room.host}}</div>
+    <div>{{room.id}}: <a href="{% url 'room' room.id %}">{{room.name}}</a></div>
+    <div>{{room.genre}}</div>
+    {% if request.user == room.host %}
+    <a href="{% url 'updateRoom' room.id %}">Update Room</a>
+    <a href="{% url 'deleteRoom' room.id %}">Delete Room</a>
+    {% endif %}
+    <hr>
+    {% endfor %}
+    {% else %}
+        <h3>No Rooms Available</h3>
+    {% endif %}
+</div>
+
+</div>
+
+</div>
+
+{% endblock content %}
+

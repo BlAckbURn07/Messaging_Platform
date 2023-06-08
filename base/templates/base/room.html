@@ -1,0 +1,22 @@
+{% include 'navbar.html' %}
+
+{% block content %}
+<h1>{{ room.name }}</h1> 
+<div>{{room.description}}</div>
+<h3>Conversations</h3>
+<hr>
+{% for i in room_messages %}
+    <div>
+        <small>@{{i.user}} - {{i.created|timesince}} ago</small>
+        <br>
+        {{i.body}}
+    </div>
+    <br>
+{% endfor %}
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <input type="text" name="room_message" placeholder="Message...">
+</form>
+
+{% endblock content %}
